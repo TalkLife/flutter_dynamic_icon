@@ -41,6 +41,16 @@ class FlutterDynamicIcon {
     );
   }
 
+  // For Android
+  static Future<void> setAlternateIconNameAndroid(
+      {required String icon, required List<String> listAvailableIcon}) async {
+    Map<String, dynamic> data = {
+      'iconName': icon,
+      'listAvailableIcon': listAvailableIcon
+    };
+    await _channel.invokeListMethod('mSetAlternateIconNameAndroid', data);
+  }
+
   /// Fetches the icon batch number
   ///
   /// The default value of this property is `0` (to show no batch)
