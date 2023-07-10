@@ -28,12 +28,12 @@ public class FlutterDynamicIconPlugin implements FlutterPlugin {
 
   private void setupChannel(BinaryMessenger messenger, Context context) {
     channel = new MethodChannel(messenger, CHANNEL_NAME);
-    MethodCallHandlerImpl handler = new MethodCallHandlerImpl();
+    MethodCallHandlerImpl handler = new MethodCallHandlerImpl(context);
     channel.setMethodCallHandler(handler);
   }
 
   private void teardownChannel() {
     channel.setMethodCallHandler(null);
     channel = null;
-  }  
+  }
 }
