@@ -82,16 +82,16 @@ public class IconChanger {
         String packageName = context.getApplicationContext().getPackageName();
 
 
-        for (String vale : activitiesArray) {
+        for (String value : activitiesArray) {
             int action;
-            if(vale.equals(targetIcon)) {
+            if(value.equals(targetIcon)) {
                 action = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
             } else {
                 action = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
             }
             String className = packageName +
                     "." +
-                    targetIcon;
+                    value;
             packageManager.setComponentEnabledSetting(
                     new ComponentName(packageName, className),
             action, PackageManager.DONT_KILL_APP);
