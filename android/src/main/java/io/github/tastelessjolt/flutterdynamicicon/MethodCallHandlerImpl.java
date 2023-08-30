@@ -26,14 +26,17 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
         } else if (call.method.equals("mSetAlternateIconName")) {
             String iconName = call.argument("iconName");
             IconChanger.enableIcon(context, iconName);
-        } else if (call.method.equals("mSetAlternateIconNameAndroid")) {
-            String iconName = call.argument("iconName");
-            List<String> listIcon = call.argument("listAvailableIcon");
-            IconChanger.setIcon(context, iconName, listIcon);
         } else if (call.method.equals("mGetApplicationIconBadgeNumber")) {
             result.error("Not supported", "Not supported on Android", null);
         } else if (call.method.equals("mSetApplicationIconBadgeNumber")) {
             result.error("Not supported", "Not supported on Android", null);
+        } else if (call.method.equals("isComponentEnabled")) {
+            String className = call.argument("className");
+            boolean isComponentEnabled = IconChanger.isComponentEnabled(context, className);
+            result.success(isComponentEnabled);
+        } else if (call.method.equals("enablePackageClass")) {
+            String className = call.argument("className");
+            IconChanger.enablePackageClass(context, className);
         } else {
             result.notImplemented();
         }

@@ -69,4 +69,17 @@ class FlutterDynamicIcon {
     await _channel.invokeMethod('mSetApplicationIconBadgeNumber',
         <String, Object>{'batchIconNumber': batchIconNumber});
   }
+
+  static Future<bool> checkComponentEnabled(String className) async {
+    final bool isComponentEnabled =
+    await _channel.invokeMethod('isComponentEnabled',
+        <String, Object>{'className': className});
+    return isComponentEnabled;
+  }
+
+  static Future enableComponent(String className) async {
+    await _channel.invokeMethod('enablePackageClass',
+        <String, Object>{'className': className});
+  }
+
 }

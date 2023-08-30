@@ -98,4 +98,54 @@ public class IconChanger {
         }
     }
 
+    public static boolean isComponentEnabled(Context context, String clsName) {
+//        final String clsName = "com.yalantis.ucrop.UCropActivity";
+        PackageManager packageManager = context.getApplicationContext().getPackageManager();
+        String packageName = context.getApplicationContext().getPackageName();
+        ComponentName componentName = new ComponentName(packageName, clsName);
+        int componentEnabledSetting = packageManager.getComponentEnabledSetting(componentName);
+
+        switch (componentEnabledSetting) {
+            case PackageManager.COMPONENT_ENABLED_STATE_DISABLED:
+                return false;
+            case PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                return true;
+            case PackageManager.COMPONENT_ENABLED_STATE_DEFAULT:
+            default:
+                // We need to get the application info to get the component's default state
+                try {
+                    PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
+                            | PackageManager.GET_RECEIVERS
+                            | PackageManager.GET_SERVICES
+                            | PackageManager.GET_PROVIDERS
+                            | PackageManager.GET_DISABLED_COMPONENTS);
+
+                    List<ComponentInfo> components = new ArrayList<>();
+                    if (packageInfo.activities != null) Collections.addAll(components, packageInfo.activities);
+                    if (packageInfo.services != null) Collections.addAll(components, packageInfo.services);
+                    if (packageInfo.providers != null) Collections.addAll(components, packageInfo.providers);
+
+                    for (ComponentInfo componentInfo : components) {
+                        if (componentInfo.name.equals(clsName)) {
+                            return componentInfo.isEnabled();
+                        }
+                    }
+
+                    // the component is not declared in the AndroidManifest
+                    return false;
+                } catch (PackageManager.NameNotFoundException e) {
+                    // the package isn't installed on the device
+                    return false;
+                }
+        }
+    }
+
+
+    public static void enablePackageClass(Context context, String clsName) {
+        PackageManager packageManager = context.getApplicationContext().getPackageManager();
+        String packageName = context.getApplicationContext().getPackageName();
+        ComponentName componentName = new ComponentName(packageName, clsName);
+        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+    }
 }
