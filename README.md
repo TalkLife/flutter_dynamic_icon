@@ -15,6 +15,7 @@ Check out the `example` directory for a sample app using `flutter_dynamic_icon`.
 #### Index
 * `2x` - `120px x 120px`  
 * `3x` - `180px x 180px`
+* 
 
 To integrate your plugin into the iOS part of your app, follow these steps
 
